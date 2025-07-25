@@ -155,6 +155,18 @@ class WebSocketKlineManager:
     def _connect_websocket(self):
         """Establish WebSocket connection with deployment-optimized settings"""
         try:
+            # Bitget WebSocket URLs
+            if global_config.BINANCE_TESTNET:
+                if global_config.BINANCE_FUTURES:
+                    self.base_url = "wss://ws.bitgetapi.com/spot/v1/stream"  # Bitget sandbox futures
+                else:
+                    self.base_url = "wss://ws.bitgetapi.com/spot/v1/stream"  # Bitget sandbox spot
+            else:
+                if global_config.BINANCE_FUTURES:
+                    self.base_url = "wss://ws.bitgetapi.com/mix/v1/stream"  # Bitget production futures
+                else:
+                    self.base_url = "wss://ws.bitgetapi.com/spot/v1/stream"  # Bitget production spot
+
             # Use proper Binance Futures WebSocket URL format
             if len(self.subscribed_streams) == 1:
                 # Single stream - direct connection
@@ -332,7 +344,7 @@ class WebSocketKlineManager:
             cache_sizes[symbol] = {}
             for interval in self.kline_cache[symbol]:
                 cache_sizes[symbol][interval] = len(self.kline_cache[symbol][interval])
-        
+
         if cache_sizes:
             self.logger.info(f"📊 Preserving cached data during reconnection: {cache_sizes}")
 
@@ -351,33 +363,33 @@ class WebSocketKlineManager:
         for attempt in range(max_immediate_attempts):
             if not self.is_running:
                 break
-                
+
             try:
                 self.logger.info(f"🔄 Enhanced reconnect attempt {attempt + 1}/{max_immediate_attempts}")
-                
+
                 # Close any existing connection first
                 if self.ws:
                     try:
                         self.ws.close()
                     except:
                         pass
-                    
+
                 self._connect_websocket()
-                
+
                 # Wait for stable connection
                 stable_wait = 0
                 while stable_wait < 10 and self.is_connected:
                     time.sleep(0.5)
                     stable_wait += 0.5
-                    
+
                 if self.is_connected:
                     self.logger.info(f"✅ Enhanced reconnection successful after {stable_wait}s!")
                     return
-                    
+
             except Exception as e:
                 self.logger.error(f"Enhanced reconnect attempt {attempt + 1} failed: {e}")
                 time.sleep(2)  # Longer delay for stability
-        
+
         # If enhanced reconnection fails, fall back to regular reconnection
         self._attempt_reconnect()
 
@@ -500,7 +512,7 @@ class WebSocketKlineManager:
         if not self.is_connected and self.is_running:
             self.logger.warning("⚠️ WebSocket not connected, attempting reconnection...")
             self._immediate_reconnect()
-            
+
         # Try to get from any available interval, preferring shorter timeframes
         symbol = symbol.upper()
 
