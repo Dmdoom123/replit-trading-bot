@@ -11,8 +11,8 @@ class GlobalConfig:
 
     def __init__(self):
         # Bitget API Configuration (keeping Binance names for compatibility)
-        self.BINANCE_API_KEY = os.getenv('BITGET_API_KEY', '')  # Maps to Bitget API Key
-        self.BINANCE_SECRET_KEY = os.getenv('BITGET_SECRET_KEY', '')  # Maps to Bitget Secret Key
+        self.BITGET_API_KEY = os.getenv('BITGET_API_KEY')
+        self.BITGET_SECRET_KEY = os.getenv('BITGET_SECRET_KEY')
         self.BITGET_PASSPHRASE = os.getenv('BITGET_PASSPHRASE', '')  # New: Bitget requires passphrase
         self.BINANCE_TESTNET = os.getenv('BITGET_SANDBOX', 'true').lower() == 'true'  # Maps to Bitget sandbox
         self.BINANCE_FUTURES = os.getenv('BITGET_FUTURES', 'true').lower() == 'true'  # Maps to Bitget futures
