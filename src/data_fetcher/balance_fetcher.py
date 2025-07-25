@@ -1,7 +1,7 @@
 
 import logging
 from typing import Dict, Optional
-from src.binance_client.client import BinanceClientWrapper
+from src.binance_client.client import BitgetClientWrapper as BinanceClientWrapper
 
 class BalanceFetcher:
     """Fetches account balance and position information"""
