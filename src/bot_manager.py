@@ -4,7 +4,7 @@ import pandas as pd
 from typing import Dict, List, Optional
 from datetime import datetime, timedelta
 from src.config.global_config import global_config
-from src.binance_client.client import BinanceClientWrapper
+from src.binance_client.client import BitgetClientWrapper as BinanceClientWrapper
 from src.data_fetcher.price_fetcher import PriceFetcher
 from src.data_fetcher.balance_fetcher import BalanceFetcher
 from src.strategy_processor.signal_processor import SignalProcessor
