@@ -3,8 +3,8 @@ import logging
 import time
 import requests
 from typing import Dict, Any, Optional, List
-from binance.client import Client
-from binance.exceptions import BinanceAPIException
+from pybitget import Client
+from pybitget.exceptions import BitgetAPIException
 
 class BinanceClientWrapper:
     """Wrapper for Binance client with error handling (supports both Spot and Futures)"""
