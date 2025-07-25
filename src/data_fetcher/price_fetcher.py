@@ -3,7 +3,7 @@ import numpy as np
 import ta
 from typing import Dict, List, Optional
 import logging
-from src.binance_client.client import BinanceClientWrapper
+from src.binance_client.client import BitgetClientWrapper as BinanceClientWrapper
 from datetime import datetime, timezone, timedelta
 from src.config.global_config import global_config
 from src.data_fetcher.websocket_manager import websocket_manager
