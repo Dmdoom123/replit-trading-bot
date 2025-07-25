@@ -1,4 +1,3 @@
-
 import os
 import json
 from typing import Dict, Any
@@ -11,9 +10,12 @@ class GlobalConfig:
     """Global configuration for the trading bot"""
 
     def __init__(self):
-        # Binance API credentials from secrets
-        self.BINANCE_API_KEY = os.getenv('BINANCE_API_KEY')
-        self.BINANCE_SECRET_KEY = os.getenv('BINANCE_SECRET_KEY')
+        # Bitget API Configuration (keeping Binance names for compatibility)
+        self.BINANCE_API_KEY = os.getenv('BITGET_API_KEY', '')  # Maps to Bitget API Key
+        self.BINANCE_SECRET_KEY = os.getenv('BITGET_SECRET_KEY', '')  # Maps to Bitget Secret Key
+        self.BITGET_PASSPHRASE = os.getenv('BITGET_PASSPHRASE', '')  # New: Bitget requires passphrase
+        self.BINANCE_TESTNET = os.getenv('BITGET_SANDBOX', 'true').lower() == 'true'  # Maps to Bitget sandbox
+        self.BINANCE_FUTURES = os.getenv('BITGET_FUTURES', 'true').lower() == 'true'  # Maps to Bitget futures
 
         # Load environment config from file if exists, otherwise use secrets
         self._load_environment_config()
@@ -97,7 +99,7 @@ class GlobalConfig:
         # Use mainnet as requested - no forced testnet override
         self.BINANCE_TESTNET = os.getenv('BINANCE_TESTNET', 'false').lower() == 'true'
         self.BINANCE_FUTURES = os.getenv('BINANCE_FUTURES', 'true').lower() == 'true'
-        
+
         mode = "TESTNET" if self.BINANCE_TESTNET else "MAINNET"
         print(f"🔧 Environment loaded: {mode}")
 
